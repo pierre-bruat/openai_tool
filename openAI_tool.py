@@ -3,7 +3,7 @@ import advertools as adv
 import altair as alt
 from advertools import sitemap_to_df
 import concurrent.futures
-from client import RestClient
+#from client import RestClient
 import datetime
 from datetime import datetime, timedelta, time, date
 import json
