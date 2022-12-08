@@ -86,6 +86,7 @@ if choose =="OpenAI tool":
     query = form.text_input("Ask anything you want")
     submit = form.form_submit_button('Submit')
     if submit:
+        gif_runner = st.image("bsbot.gif")
         openai.api_key = API_key
         response = openai.Completion.create(
             model="text-davinci-003",
@@ -97,4 +98,5 @@ if choose =="OpenAI tool":
             presence_penalty=0)
 
         data = response.choices[0].text
+        gif_runner.empty()
         st.write(data)
