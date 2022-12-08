@@ -15,3 +15,5 @@ pillow
 streamlit-aggrid
 matplotlib
 matplotlib-venn
+rest-client
+openai
