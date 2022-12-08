@@ -12,8 +12,8 @@ streamlit_option_menu
 google-search-results
 plotly
 pillow
+rest-client
+openai
 streamlit-aggrid
 matplotlib
 matplotlib-venn
-rest-client
-openai
