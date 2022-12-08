@@ -16,7 +16,7 @@ from python_semrush.semrush import SemrushClient
 from  PIL import Image
 import pandas as pd
 import os
-#import openai
+import openai
 import requests
 import streamlit as st
 from streamlit_option_menu import option_menu
