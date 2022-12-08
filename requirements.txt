@@ -1,0 +1,17 @@
+streamlit
+pandas 
+urllib3
+bs4
+requests
+times
+git+https://github.com/storerjeremy/python-semrush.git
+streamlit-tags
+pytrends
+advertools
+streamlit_option_menu
+google-search-results
+plotly
+pillow
+streamlit-aggrid
+matplotlib
+matplotlib-venn
