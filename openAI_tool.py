@@ -81,11 +81,12 @@ with st.sidebar:
 
 
 if choose =="OpenAI tool":
-    openai.api_key = "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"
     form = st.form(key='my-form-20')
+    API_key = form.text_input("Insert API key")
     query = form.text_input("Ask anything you want")
     submit = form.form_submit_button('Submit')
     if submit:
+        openai.api_key = API_key
         response = openai.Completion.create(
             model="text-davinci-003",
             prompt=query,
