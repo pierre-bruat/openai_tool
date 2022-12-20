@@ -1,7 +1,5 @@
 
-import advertools as adv
-import altair as alt
-from advertools import sitemap_to_df
+
 import concurrent.futures
 #from client import RestClient
 import datetime
@@ -10,10 +8,6 @@ import json
 from datetime import *
 import io
 import numpy as np
-import pytrends as pytrend
-from pytrends.request import TrendReq
-from python_semrush.semrush import SemrushClient
-from  PIL import Image
 import pandas as pd
 import os
 import openai
