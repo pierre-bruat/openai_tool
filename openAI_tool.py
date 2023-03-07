@@ -92,8 +92,8 @@ if choose =="OpenAI tool":
         gif_runner = st.image("bsbot.gif")
         openai.api_key = API_key
         response = openai.Completion.create(
-            model="gpt-3.5-turbo",
-            #model="text-davinci-003",
+            #model="gpt-3.5-turbo",
+            model="text-davinci-003",
             prompt=query,
             temperature=0,
             max_tokens=2000,
