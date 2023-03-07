@@ -33,6 +33,15 @@ from pandas.api.types import (
     is_object_dtype,
 )
 
+###
+def lala(text):
+    sleep(10)
+    response = openai.ChatCompletion.create(
+        model ="gpt-3.5-turbo",
+        message = [{"role":"user" , "content": promt + " " + text}],
+        max_tokens = 2000
+    )
+    return response['choices'][0]["message"]["content"]
 
 
 st.set_page_config(
@@ -59,7 +68,7 @@ st.markdown(hide_table_row_index, unsafe_allow_html=True)
 
 
 with st.sidebar:
-    choose = option_menu("SEO toolbox", ["OpenAI tool"],
+    choose = option_menu("SEO toolbox", ["OpenAI tool","OpenAI translation"],
                      icons=['robot'],
                      menu_icon="app-indicator", 
                      default_index=0, 
@@ -83,10 +92,11 @@ if choose =="OpenAI tool":
         gif_runner = st.image("bsbot.gif")
         openai.api_key = API_key
         response = openai.Completion.create(
-            model="text-davinci-003",
+            model="gpt-3.5-turbo",
+            #model="text-davinci-003",
             prompt=query,
-            temperature=0.7,
-            max_tokens=500,
+            temperature=0,
+            max_tokens=2000,
             top_p=1,
             frequency_penalty=0,
             presence_penalty=0)
