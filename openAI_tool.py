@@ -106,15 +106,22 @@ if choose =="OpenAI tool":
         st.write(data)
 
 
-
+#https://platform.openai.com/docs/guides/chat/chat-vs-completions
 if choose =="CHATGPT":
     form = st.form(key='my-form-21')
     API_key = form.text_input("Insert API key")
-    query = form.text_input("Ask anything you want")
+    role = form.text_input("Who am I ?")
+    query = form.text_input("Prompt")
     submit = form.form_submit_button('Submit')
     if submit:
         openai.api_key = API_key
         gif_runner = st.image("bsbot.gif")
-        completion = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=[{"role": "user", "content": query}])
+        completion = openai.ChatCompletion.create(model="gpt-3.5-turbo", 
+            messages=[
+            {"role" :" system", "content" : role},
+            {"role": "user", "content": query}
+            ])
+        data = completion.choices[0].text
+
         gif_runner.empty()
-        st.write(completion)
+        st.write(data)
