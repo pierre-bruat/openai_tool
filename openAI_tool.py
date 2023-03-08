@@ -121,7 +121,7 @@ if choose =="CHATGPT":
             #{"role" :" system", "content" : role},
             {"role": "user", "content": query}
             ])
-        data = completion.choices[0].text
+        data = completion.[‘choices’][0][‘message’][‘content’]
 
         gif_runner.empty()
         st.write(data)
