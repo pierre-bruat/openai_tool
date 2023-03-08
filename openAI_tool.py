@@ -68,7 +68,7 @@ st.markdown(hide_table_row_index, unsafe_allow_html=True)
 
 
 with st.sidebar:
-    choose = option_menu("SEO toolbox", ["OpenAI tool","OpenAI translation"],
+    choose = option_menu("SEO toolbox", ["OpenAI tool","CHATGPT"],
                      icons=['robot'],
                      menu_icon="app-indicator", 
                      default_index=0, 
@@ -104,3 +104,17 @@ if choose =="OpenAI tool":
         data = response.choices[0].text
         gif_runner.empty()
         st.write(data)
+
+
+
+if choose =="CHATGPT":
+    form = st.form(key='my-form-21')
+    API_key = form.text_input("Insert API key")
+    query = form.text_input("Ask anything you want")
+    submit = form.form_submit_button('Submit')
+    if submit:
+        openai.api_key = API_key
+        gif_runner = st.image("bsbot.gif")
+        completion = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=[{"role": "user", "content": query}])
+        gif_runner.empty()
+        st.write(completion)
