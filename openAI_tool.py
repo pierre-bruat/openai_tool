@@ -111,7 +111,7 @@ if choose =="CHATGPT":
         response = openai.ChatCompletion.create(
             model ="gpt-3.5-turbo",
             messages = [
-            {"role":"system" , "content": "Tu es un expert dans la bricolage, jardinnage et décoration"},
+            {"role":"system" , "content": role},
             {"role":"user" , "content": promt}],
             max_tokens = 2000)
         result = ''
