@@ -61,7 +61,7 @@ st.markdown(hide_table_row_index, unsafe_allow_html=True)
 
 with st.sidebar:
     choose = option_menu("SEO toolbox", ["OpenAI tool","CHATGPT"],
-                     icons=['robot'],
+                     icons=['robot','brain'],
                      menu_icon="app-indicator", 
                      default_index=0, 
                      orientation="vertical",
