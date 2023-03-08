@@ -118,7 +118,7 @@ if choose =="CHATGPT":
         gif_runner = st.image("bsbot.gif")
         completion = openai.ChatCompletion.create(model="gpt-3.5-turbo", 
             messages=[
-            {"role" :" system", "content" : role},
+            #{"role" :" system", "content" : role},
             {"role": "user", "content": query}
             ])
         data = completion.choices[0].text
