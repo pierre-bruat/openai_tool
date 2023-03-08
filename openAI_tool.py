@@ -110,7 +110,7 @@ if choose =="CHATGPT":
         gif_runner = st.image("bsbot.gif")
         response = openai.ChatCompletion.create(
             model ="gpt-3.5-turbo",
-            message = [
+            messages = [
             {"role":"system" , "content": "Tu es un expert dans la bricolage, jardinnage et décoration"},
             {"role":"user" , "content": promt}],
             max_tokens = 2000)
