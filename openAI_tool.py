@@ -116,6 +116,6 @@ if choose =="CHATGPT":
             max_tokens = 2000)
         result = ''
         for choice in response.choices:
-        result += choice.message.content
+            result += choice.message.content
         gif_runner.empty()
         st.write(result)
