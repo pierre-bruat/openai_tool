@@ -103,7 +103,7 @@ if choose =="CHATGPT":
     form = st.form(key='my-form-21')
     API_key = form.text_input("Insert API key")
     role = form.text_input("Who am I ?")
-    query = form.text_input("Prompt")
+    promt = form.text_input("Prompt")
     submit = form.form_submit_button('Submit')
     if submit:
         openai.api_key = API_key
@@ -112,7 +112,7 @@ if choose =="CHATGPT":
             model ="gpt-3.5-turbo",
             message = [
             {"role":"system" , "content": "Tu es un expert dans la bricolage, jardinnage et décoration"},
-            {"role":"user" , "content": promt + " " + text}],
+            {"role":"user" , "content": promt}],
             max_tokens = 2000)
         result = ''
         for choice in response.choices:
