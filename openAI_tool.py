@@ -38,14 +38,20 @@ def lala(text):
     sleep(10)
     response = openai.ChatCompletion.create(
         model ="gpt-3.5-turbo",
-        message = [{"role":"user" , "content": promt + " " + text}],
+        message = [
+        {"role":"system" , "content": "Tu es un expert dans la bricolage, jardinnage et décoration"}
+        {"role":"user" , "content": promt + " " + text}
+        ],
         max_tokens = 2000
     )
-    return response['choices'][0]["message"]["content"]
+    result = ''
+    for choice in response.choices:
+    result += choice.message.content
 
+    st.write(result)
 
 st.set_page_config(
-    page_title='SEO toolbox', 
+    page_title='OpenAI tool', 
     page_icon=':smiley',
     #layout = "wide",
     initial_sidebar_state='expanded',
@@ -116,7 +122,14 @@ if choose =="CHATGPT":
     if submit:
         openai.api_key = API_key
         gif_runner = st.image("bsbot.gif")
-        completion = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=[{"role": "user", "content": query}])
-        data = completion.["choices"][0]["message"]["content"]
+        response = openai.ChatCompletion.create(
+            model ="gpt-3.5-turbo",
+            message = [
+            {"role":"system" , "content": "Tu es un expert dans la bricolage, jardinnage et décoration"},
+            {"role":"user" , "content": promt + " " + text}],
+            max_tokens = 2000)
+        result = ''
+        for choice in response.choices:
+        result += choice.message.content
         gif_runner.empty()
-        st.write(data)
+        st.write(result)
