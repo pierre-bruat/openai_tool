@@ -34,25 +34,11 @@ from pandas.api.types import (
 )
 
 ###
-def lala(text):
-    sleep(10)
-    response = openai.ChatCompletion.create(
-        model ="gpt-3.5-turbo",
-        message = [
-        {"role":"system" , "content": "Tu es un expert dans la bricolage, jardinnage et décoration"}
-        {"role":"user" , "content": promt + " " + text}
-        ],
-        max_tokens = 2000
-    )
-    result = ''
-    for choice in response.choices:
-    result += choice.message.content
 
-    st.write(result)
 
 st.set_page_config(
     page_title='OpenAI tool', 
-    page_icon=':smiley',
+    page_icon=':brain',
     #layout = "wide",
     initial_sidebar_state='expanded',
     )
