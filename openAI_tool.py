@@ -116,12 +116,7 @@ if choose =="CHATGPT":
     if submit:
         openai.api_key = API_key
         gif_runner = st.image("bsbot.gif")
-        completion = openai.ChatCompletion.create(model="gpt-3.5-turbo", 
-            messages=[
-            #{"role" :" system", "content" : role},
-            {"role": "user", "content": query}
-            ])
-        data = completion.[‘choices’][0][‘message’][‘content’]
-
+        completion = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=[{"role": "user", "content": query}])
+        data = completion.["choices"][0]["message"]["content"]
         gif_runner.empty()
         st.write(data)
