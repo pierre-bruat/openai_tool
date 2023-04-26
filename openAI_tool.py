@@ -125,8 +125,8 @@ if choose =="ContentScoring":
     API_key = form.text_input("Insert API key")
     keyword = form.text_input("Insert your keyword")
     content = form.text_input("Insert your content")
-    role = "Tu es un expert linguistique et SEO."
-    promt = f"Dans le cadre de la rédaction éditoriale d'un contenu autour du sujet suivant : {keyword} . Identifie le champ lexical, champ sémantique ou cooccurrences pour améliorer la qualité de ce contenu. Puis évalue la qualité de ce contenu : {content} en fonction des termes identifiés précédemment. Retourne uniquement le taux des termes présents dans le corpus et liste les termes manquants."
+    role = "Tu es un expert linguistique."
+    promt = f"Dans le cadre de la rédaction éditoriale d'un contenu autour du sujet suivant : {keyword}. Evalue la qualité de ce contenu '{content}' en fonction du champ lexical autour de ce {keyword}. Tu définiras la qualité d'un contenu par un taux (en %) de présence des termes du champs lexical dans le contenu."
     submit = form.form_submit_button('Submit')
     if submit:
         openai.api_key = API_key
