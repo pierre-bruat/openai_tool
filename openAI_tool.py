@@ -60,8 +60,8 @@ st.markdown(hide_table_row_index, unsafe_allow_html=True)
 
 
 with st.sidebar:
-    choose = option_menu("SEO toolbox", ["OpenAI tool","CHATGPT"],
-                     icons=['robot','robot'],
+    choose = option_menu("SEO toolbox", ["OpenAI tool","CHATGPT","ContentMaster"],
+                     icons=['robot','robot','robot'],
                      menu_icon="app-indicator", 
                      default_index=0, 
                      orientation="vertical",
@@ -110,6 +110,28 @@ if choose =="CHATGPT":
         gif_runner = st.image("bsbot.gif")
         response = openai.ChatCompletion.create(
             model ="gpt-3.5-turbo",
+            messages = [
+            {"role":"system" , "content": role},
+            {"role":"user" , "content": promt}],
+            max_tokens = 2000)
+        result = ''
+        for choice in response.choices:
+            result += choice.message.content
+        gif_runner.empty()
+        st.write(result)
+
+if choose =="ContentMaster":
+    form = st.form(key='my-form-22')
+    API_key = form.text_input("Insert API key")
+    keyword = form.text_input("Insert your keyword")
+    role = "Tu es un expert linguistique."
+    promt = f"Dans le cadre de la rédaction éditoriale d'un contenu autour du sujet suivant : {keyword} . Propose moi le champ lexical, champ sémantique ou cooccurrences pour améliorer la qualité de ce contenu. Mets l'ensemble de ce résultat dans un tableau avec une colonne indiquant le niveau de proximité du terme à utiliser dans le corpus et une autre colonne pour le qualifier (matière, couleur, etc.)"
+    submit = form.form_submit_button('Submit')
+    if submit:
+        openai.api_key = API_key
+        gif_runner = st.image("bsbot.gif")
+        response = openai.ChatCompletion.create(
+            model ="gpt-4",
             messages = [
             {"role":"system" , "content": role},
             {"role":"user" , "content": promt}],
