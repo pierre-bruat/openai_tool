@@ -60,8 +60,8 @@ st.markdown(hide_table_row_index, unsafe_allow_html=True)
 
 
 with st.sidebar:
-    choose = option_menu("SEO toolbox", ["OpenAI tool","CHATGPT","ContentMaster"],
-                     icons=['robot','robot','robot'],
+    choose = option_menu("SEO toolbox", ["OpenAI tool","CHATGPT","ContentMaster","ContentScoring"],
+                     icons=['robot','robot','robot','robot'],
                      menu_icon="app-indicator", 
                      default_index=0, 
                      orientation="vertical",
@@ -120,8 +120,31 @@ if choose =="CHATGPT":
         gif_runner.empty()
         st.write(result)
 
-if choose =="ContentMaster":
+if choose =="ContentScoring":
     form = st.form(key='my-form-22')
+    API_key = form.text_input("Insert API key")
+    keyword = form.text_input("Insert your keyword")
+    content = form.text_input("Insert your content")
+    role = "Tu es un expert linguistique et SEO."
+    promt = f"Dans le cadre de la rédaction éditoriale d'un contenu autour du sujet suivant : {keyword} . Identifie le champ lexical, champ sémantique ou cooccurrences pour améliorer la qualité de ce contenu. Puis évalue la qualité de ce contenu : {content} en fonction des termes identifiés précédemment. Retourne uniquement le taux des termes présents dans le corpus et liste les termes manquants."
+    submit = form.form_submit_button('Submit')
+    if submit:
+        openai.api_key = API_key
+        gif_runner = st.image("bsbot.gif")
+        response = openai.ChatCompletion.create(
+            model ="gpt-4",
+            messages = [
+            {"role":"system" , "content": role},
+            {"role":"user" , "content": promt}],
+            max_tokens = 2000)
+        result = ''
+        for choice in response.choices:
+            result += choice.message.content
+        gif_runner.empty()
+        st.write(result)
+
+if choose =="ContentMaster":
+    form = st.form(key='my-form-23')
     API_key = form.text_input("Insert API key")
     keyword = form.text_input("Insert your keyword")
     role = "Tu es un expert linguistique."
