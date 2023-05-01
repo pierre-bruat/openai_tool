@@ -96,6 +96,10 @@ def calculate_score(df):
 
 df['score'], df['missing_terms'] = zip(*df.apply(calculate_score, axis=1))
 
+
+
+
+
 with st.sidebar:
     choose = option_menu("SEO toolbox", ["OpenAI tool","CHATGPT","ContentMaster","ContentScoring"],
                      icons=['robot','robot','robot','robot'],
@@ -175,54 +179,6 @@ if choose =="ContentScoring":
         st.write(score)
              # j'affiche le contenu à gauche et le les termes à droite sous forme de tags
         st.write(result)
-
-def calculate_score(row):
-    content = row['Content'].lower()
-    terms = [term.strip() for term in row['terms'].split(',')]
-    terms_count = len(terms)
-    terms_found = 0
-    missing_terms = []
-
-    for term in terms:
-        if term.lower() in content:
-            terms_found += 1
-        else:
-            missing_terms.append(term)
-
-    score = (terms_found / terms_count) * 100
-    missing_terms_str = ', '.join(missing_terms)  # Conversion de la liste en chaîne de caractères
-    return score, missing_terms_str
-
-df['score'], df['missing_terms'] = zip(*df.apply(calculate_score, axis=1))
-
-df
-
-if choose =="ContentMaster":
-    form = st.form(key='my-form-23')
-    API_key = form.text_input("Insert API key")
-    keyword = form.text_input("Insert your keyword")
-    role = "Tu es un expert linguistique."
-    promt = f"Dans le cadre de la rédaction éditoriale d'un contenu autour du sujet suivant : {keyword} . Propose moi le champ lexical, champ sémantique ou cooccurrences pour améliorer la qualité de ce contenu. Mets l'ensemble de ce résultat dans un tableau avec une colonne indiquant le niveau de proximité du terme à utiliser dans le corpus et une autre colonne pour le qualifier (matière, couleur, etc.)"
-    submit = form.form_submit_button('Submit')
-    if submit:
-        openai.api_key = API_key
-        gif_runner = st.image("bsbot.gif")
-        response = openai.ChatCompletion.create(
-            model ="gpt-4",
-            messages = [
-            {"role":"system" , "content": role},
-            {"role":"user" , "content": promt}],
-            max_tokens = 2000)
-        result = ''
-        for choice in response.choices:
-            result += choice.message.content
-        gif_runner.empty()
-        st.write(result)
-
-
-
-
-
 
 
 
