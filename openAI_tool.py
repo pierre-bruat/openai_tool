@@ -24,7 +24,7 @@ import urllib
 import plotly.express as px
 import matplotlib.pyplot as plt
 from matplotlib_venn import venn2 
-
+from streamlit_ace import st_ace
 
 from pandas.api.types import (
     is_categorical_dtype,
@@ -124,7 +124,7 @@ if choose =="ContentScoring":
     form = st.form(key='my-form-22')
     API_key = form.text_input("Insert API key")
     keyword = form.text_input("Insert your keyword")
-    content = form.text_input("Insert your content")
+    content = st_ace(language='markdown', theme='monokai', key='ace-editor')
     role = "Tu es un expert linguistique."
     promt = f"Dans le cadre de la rédaction éditoriale d'un contenu autour du sujet suivant : {keyword}. Evalue la qualité de ce contenu '{content}' en fonction du champ lexical autour de ce {keyword}. Tu définiras la qualité d'un contenu par un taux (en %) de présence des termes du champs lexical dans le contenu."
     submit = form.form_submit_button('Submit')
@@ -164,3 +164,14 @@ if choose =="ContentMaster":
             result += choice.message.content
         gif_runner.empty()
         st.write(result)
+
+
+
+
+
+
+
+
+
+
+        
