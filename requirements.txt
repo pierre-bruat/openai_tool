@@ -16,3 +16,4 @@ openai
 streamlit-aggrid
 matplotlib
 matplotlib-venn
+streamlit-ace
