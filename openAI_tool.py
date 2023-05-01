@@ -56,8 +56,6 @@ st.markdown(hide_table_row_index, unsafe_allow_html=True)
 #@st.cache(suppress_st_warning=True)
 
 
-role = "Tu es un ingénieur linguistique"
-
 def seo_insights(df):
         answers_list = []
         for row in tqdm(df.itertuples()):
@@ -77,9 +75,9 @@ def seo_insights(df):
 
 
 
-def calculate_score(df):
-    content = df['Content'].lower()
-    terms = [term.strip() for term in df['terms'].split(',')]
+def calculate_score(row):
+    content = row['Content'].lower()
+    terms = [term.strip() for term in row['terms'].split(',')]
     terms_count = len(terms)
     terms_found = 0
     missing_terms = []
@@ -95,6 +93,7 @@ def calculate_score(df):
     return score, missing_terms_str
 
 df['score'], df['missing_terms'] = zip(*df.apply(calculate_score, axis=1))
+return df
 
 
 
