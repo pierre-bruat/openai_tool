@@ -77,7 +77,7 @@ def seo_insights(df):
 
 
 def calculate_score(row):
-    content = row['Content'].lower()
+    content = row['Content']
     terms = [term.strip() for term in row['terms'].split(',')]
     terms_count = len(terms)
     terms_found = 0
