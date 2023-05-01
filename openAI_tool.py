@@ -24,8 +24,6 @@ import urllib
 import plotly.express as px
 import matplotlib.pyplot as plt
 from matplotlib_venn import venn2 
-from streamlit_ace import st_ace
-
 from pandas.api.types import (
     is_categorical_dtype,
     is_datetime64_any_dtype,
@@ -58,6 +56,45 @@ st.markdown(hide_table_row_index, unsafe_allow_html=True)
 #@st.cache(suppress_st_warning=True)
 
 
+role = "Tu es un ingénieur linguistique"
+
+def seo_insights(df):
+        answers_list = []
+        for row in tqdm(df.itertuples()):
+                keyword = " ".join(row.keyword.split(" "))
+                response = openai.ChatCompletion.create(
+                        model ="gpt-4",
+                        messages = [
+                        {"role":"system" , "content": role},
+                        {"role":"user" , "content":f"Dans le cadre de la rédaction éditoriale d'un contenu autour du sujet suivant : {keyword}. Retourne les termes issus du champ lexical / sémantique autour de ce mot clé : {keyword} sous forme de liste. Les termes doivent être séparés par des virgules. "}],
+                        max_tokens = 1000)
+                result = ''
+                for choice in response.choices:
+                        result += choice.message.content
+                answers_list.append(result)
+        df["terms"] = answers_list
+        return df
+
+
+
+def calculate_score(df):
+    content = df['Content'].lower()
+    terms = [term.strip() for term in df['terms'].split(',')]
+    terms_count = len(terms)
+    terms_found = 0
+    missing_terms = []
+
+    for term in terms:
+        if term.lower() in content:
+            terms_found += 1
+        else:
+            missing_terms.append(term)
+
+    score = (terms_found / terms_count) * 100
+    missing_terms_str = ', '.join(missing_terms)  # Conversion de la liste en chaîne de caractères
+    return score, missing_terms_str
+
+df['score'], df['missing_terms'] = zip(*df.apply(calculate_score, axis=1))
 
 with st.sidebar:
     choose = option_menu("SEO toolbox", ["OpenAI tool","CHATGPT","ContentMaster","ContentScoring"],
@@ -124,24 +161,41 @@ if choose =="ContentScoring":
     form = st.form(key='my-form-22')
     API_key = form.text_input("Insert API key")
     keyword = form.text_input("Insert your keyword")
-    content = st_ace(language='markdown', theme='monokai', key='ace-editor')
-    role = "Tu es un expert linguistique."
-    promt = f"Dans le cadre de la rédaction éditoriale d'un contenu autour du sujet suivant : {keyword}. Evalue la qualité de ce contenu '{content}' en fonction du champ lexical autour de ce {keyword}. Tu définiras la qualité d'un contenu par un taux (en %) de présence des termes du champs lexical dans le contenu."
+    content = form.text_area('Text to analyze')
     submit = form.form_submit_button('Submit')
     if submit:
+        data = {'keyword': [keyword],'Content':[Content]} 
+        df = pd.DataFrame(data)  
         openai.api_key = API_key
         gif_runner = st.image("bsbot.gif")
-        response = openai.ChatCompletion.create(
-            model ="gpt-4",
-            messages = [
-            {"role":"system" , "content": role},
-            {"role":"user" , "content": promt}],
-            max_tokens = 2000)
-        result = ''
-        for choice in response.choices:
-            result += choice.message.content
+        result = seo_insights(df)
         gif_runner.empty()
+        score = calculate_score(df)
+             # j'affiche le contenu à gauche et le les termes à droite sous forme de tags
+        st.write(score)
+             # j'affiche le contenu à gauche et le les termes à droite sous forme de tags
         st.write(result)
+
+def calculate_score(row):
+    content = row['Content'].lower()
+    terms = [term.strip() for term in row['terms'].split(',')]
+    terms_count = len(terms)
+    terms_found = 0
+    missing_terms = []
+
+    for term in terms:
+        if term.lower() in content:
+            terms_found += 1
+        else:
+            missing_terms.append(term)
+
+    score = (terms_found / terms_count) * 100
+    missing_terms_str = ', '.join(missing_terms)  # Conversion de la liste en chaîne de caractères
+    return score, missing_terms_str
+
+df['score'], df['missing_terms'] = zip(*df.apply(calculate_score, axis=1))
+
+df
 
 if choose =="ContentMaster":
     form = st.form(key='my-form-23')
@@ -174,4 +228,3 @@ if choose =="ContentMaster":
 
 
 
-        
