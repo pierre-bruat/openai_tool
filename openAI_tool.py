@@ -240,7 +240,7 @@ if choose =="ContentScoring":
         st.metric("Optimization score",df["score"])
         missing_kw_list = []
         for row in df['missing_terms']:
-            missing_terms_list.extend(row.split(','))        
+            missing_kw_list.extend(row.split(','))        
         st.write(missing_kw_list)
         missing_kw = st_tags(label = "Missing keywords",text = "Press enter to add more", value= missing_kw_list, suggestions ="", maxtags ="40",key="coucou")
         st.write(missing_kw)
