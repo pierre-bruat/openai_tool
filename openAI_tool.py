@@ -218,13 +218,9 @@ if choose =="ContentScoring":
         df['score'], df['missing_terms'] = zip(*df.apply(calculate_score, axis=1))
              # j'affiche le contenu à gauche et le les termes à droite sous forme de tags
         st.metric("Semantic Score",df["score"])
-        missing_kw = st_tags("Missing keywords:", [df["missing_terms"]])
+        missing_kw = st_tags("Missing keywords:", df["missing_terms"])
         st.write(missing_kw)
         st.write(df)
-
-
-             # j'affiche le contenu à gauche et le les termes à droite sous forme de tags
-       
 
 
 
