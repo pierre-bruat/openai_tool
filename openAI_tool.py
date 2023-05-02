@@ -206,7 +206,7 @@ def st_tags(value: list,
             label: str,
             text: str,
             maxtags: int,
-            key=None) -> list:
+            key="coucou") -> list:
     '''
     :param maxtags: Maximum number of tags allowed maxtags = -1 for unlimited entries
     :param suggestions: (List) List of possible suggestions (optional)
