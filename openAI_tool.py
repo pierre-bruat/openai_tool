@@ -241,7 +241,7 @@ if choose =="ContentScoring":
         for row in df['missing_terms']:
             missing_kw_list.extend(row.split(','))    
         st.write(missing_kw_list)
-        st.write(type(kw_list))
+        st.write(type(missing_kw_list))
         missing_kw = st_tags( value = ['Testcc','Coucou'], suggestions = ["Test"],label = "Missing keywords",text = "Press enter to add more", maxtags =20,key="coucou")
         st.write(missing_kw)
         st.write(df)
