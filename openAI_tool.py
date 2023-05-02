@@ -206,7 +206,7 @@ def st_tags(value: list,
             label: str,
             text: str,
             maxtags: int,
-            key="coucou") -> list:
+            key=None) -> list:
     '''
     :param maxtags: Maximum number of tags allowed maxtags = -1 for unlimited entries
     :param suggestions: (List) List of possible suggestions (optional)
@@ -243,7 +243,7 @@ if choose =="ContentScoring":
         for row in df['missing_terms']:
             missing_kw_list.extend(row.split(','))        
         st.write(missing_kw_list)
-        missing_kw = st_tags(label = "Missing keywords",text = "Press enter to add more", value= missing_kw_list, suggestions =["coucou","test_2"], maxtags =20,key="coucou")
+        missing_kw = st_tags( value= missing_kw_list, label = "Missing keywords",text = "Press enter to add more", maxtags =20,key="coucou")
         afficher_tags(missing_kw_list)
         st.write(missing_kw)
         st.write(df)
