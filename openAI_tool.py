@@ -238,10 +238,10 @@ if choose =="ContentScoring":
         df['score'], df['missing_terms'] = zip(*df.apply(calculate_score, axis=1))
         st.metric("Optimization score",df["score"])
         missing_kw_list = []
-        for row in df['missing_terms']:
-            missing_kw_list.extend(row.split(','))        
-        st.write(missing_kw_list)
-        st.write(type(missing_kw_list))
+        kw_list = for row in df['missing_terms']:
+            missing_kw_list.extend(row.split(','))    
+        st.write(kw_list)
+        st.write(type(kw_list))
         missing_kw = st_tags( value = ['Testcc','Coucou'], suggestions = ["Test"],label = "Missing keywords",text = "Press enter to add more", maxtags =20,key="coucou")
         st.write(missing_kw)
         st.write(df)
