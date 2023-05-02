@@ -220,7 +220,9 @@ def st_tags(value: list,
 
     Note: usage also supports keywords = st_tags()
     '''
-
+def afficher_tags(tags, couleur_fond='lightgray', couleur_texte='black'):
+    html_tags = ' '.join([f'<span style="background-color:{couleur_fond}; color:{couleur_texte}; padding: 6px; border-radius: 5px; margin-right: 6px; margin-bottom: 6px;">{tag}</span>' for tag in tags])
+    st.markdown(html_tags, unsafe_allow_html=True)
 
 if choose =="ContentScoring":
     form = st.form(key='my-form-22')
@@ -242,6 +244,7 @@ if choose =="ContentScoring":
             missing_kw_list.extend(row.split(','))        
         st.write(missing_kw_list)
         missing_kw = st_tags(label = "Missing keywords",text = "Press enter to add more", value= missing_kw_list, suggestions =["coucou","test_2"], maxtags =20,key="coucou")
+        afficher_tags(missing_kw_list)
         st.write(missing_kw)
         st.write(df)
 
