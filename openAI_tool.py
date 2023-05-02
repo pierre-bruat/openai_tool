@@ -217,7 +217,7 @@ if choose =="ContentScoring":
         gif_runner.empty()
         df['score'], df['missing_terms'] = zip(*df.apply(calculate_score, axis=1))
              # j'affiche le contenu à gauche et le les termes à droite sous forme de tags
-        st.write(df["score"])
+        st.metric("Semantic Score",df["score"])
              # j'affiche le contenu à gauche et le les termes à droite sous forme de tags
        
 
