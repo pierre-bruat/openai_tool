@@ -236,13 +236,12 @@ if choose =="ContentScoring":
         result = seo_insights(df)
         gif_runner.empty()
         df['score'], df['missing_terms'] = zip(*df.apply(calculate_score, axis=1))
-             # j'affiche le contenu à gauche et le les termes à droite sous forme de tags
         st.metric("Optimization score",df["score"])
         missing_kw_list = []
         for row in df['missing_terms']:
             missing_kw_list.extend(row.split(','))        
         st.write(missing_kw_list)
-        missing_kw = st_tags(label = "Missing keywords",text = "Press enter to add more", value= ["test"], suggestions =["coucou","test_2"], maxtags =20,key="coucou")
+        missing_kw = st_tags(label = "Missing keywords",text = "Press enter to add more", value= missing_kw_list, suggestions =["coucou","test_2"], maxtags =20,key="coucou")
         st.write(missing_kw)
         st.write(df)
 
