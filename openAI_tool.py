@@ -209,6 +209,7 @@ if choose =="ContentScoring":
     submit = form.form_submit_button('Submit')
     if submit:
         data = {'keyword': [keyword],'Content':[content]} 
+        st.write(data)
         df = pd.DataFrame(data)  
         openai.api_key = API_key
         gif_runner = st.image("bsbot.gif")
