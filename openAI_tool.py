@@ -237,8 +237,9 @@ if choose =="ContentScoring":
         gif_runner.empty()
         df['score'], df['missing_terms'] = zip(*df.apply(calculate_score, axis=1))
              # j'affiche le contenu à gauche et le les termes à droite sous forme de tags
-        st.metric("Semantic Score",df["score"])
+        st.metric("Optimization score",df["score"])
         missing_kw_list = df["missing_terms"].apply(lambda x: x.split(','))
+        missing_kw_list = missing_kw_list.missing_terms.tolist()
         st.write(missing_kw_list)
         missing_kw = st_tags(label = "Missing keywords",text = "Press enter to add more", value= missing_kw_list, suggestions ="", maxtags =20,key="coucou")
         
