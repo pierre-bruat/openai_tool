@@ -17,3 +17,4 @@ streamlit-aggrid
 matplotlib
 matplotlib-venn
 streamlit-ace
+streamlit-tags

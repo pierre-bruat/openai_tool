@@ -13,6 +13,7 @@ import os
 import openai
 import requests
 import streamlit as st
+from streamlit_tags import st_tags 
 from streamlit_option_menu import option_menu
 from st_aggrid import AgGrid
 import streamlit.components.v1 as html
@@ -213,11 +214,15 @@ if choose =="ContentScoring":
         openai.api_key = API_key
         gif_runner = st.image("bsbot.gif")
         result = seo_insights(df)
-        st.write(result)
         gif_runner.empty()
         df['score'], df['missing_terms'] = zip(*df.apply(calculate_score, axis=1))
              # j'affiche le contenu à gauche et le les termes à droite sous forme de tags
         st.metric("Semantic Score",df["score"])
+        missing_kw = st_tags("Missing keywords:", [df["missing_terms"]])
+        st.write(missing_kw)
+        st.write(df)
+
+
              # j'affiche le contenu à gauche et le les termes à droite sous forme de tags
        
 
