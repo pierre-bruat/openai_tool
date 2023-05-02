@@ -243,7 +243,8 @@ if choose =="ContentScoring":
             label = "Missing keywords",
             text = "",
             value= missing_kw_list,
-            suggestions ="",)
+            suggestions ="",
+            maxtags =20)
         st.write(missing_kw)
         st.write(df)
 
