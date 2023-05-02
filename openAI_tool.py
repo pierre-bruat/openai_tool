@@ -246,7 +246,8 @@ if choose =="ContentScoring":
             value= missing_kw_list,
             suggestions ="",
             maxtags =20)
-        st.write(missing_kw)
+        
+        #st.write(missing_kw)
         st.write(df)
 
 
