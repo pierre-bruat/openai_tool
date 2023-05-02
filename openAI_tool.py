@@ -99,8 +99,8 @@ def calculate_score(row):
 
 
 with st.sidebar:
-    choose = option_menu("SEO toolbox", ["OpenAI tool","CHATGPT","ContentMaster","ContentScoring"],
-                     icons=['robot','robot','robot','robot'],
+    choose = option_menu("SEO toolbox", ["OpenAI tool","CHATGPT","ContentScoring"],
+                     icons=['robot','robot','robot'],
                      menu_icon="app-indicator", 
                      default_index=0, 
                      orientation="vertical",
@@ -159,6 +159,48 @@ if choose =="CHATGPT":
         gif_runner.empty()
         st.write(result)
 
+
+
+
+def seo_insights(df):
+        answers_list = []
+        for row in tqdm(df.itertuples()):
+                keyword = " ".join(row.keyword.split(" "))
+                response = openai.ChatCompletion.create(
+                        model ="gpt-4",
+                        messages = [
+                        {"role":"system" , "content": role},
+                        {"role":"user" , "content":f"Dans le cadre de la rédaction éditoriale d'un contenu autour du sujet suivant : {keyword}. Retourne les termes issus du champ lexical / sémantique autour de ce mot clé : {keyword} sous forme de liste. Les termes doivent être séparés par des virgules. "}],
+                        max_tokens = 1000)
+                result = ''
+                for choice in response.choices:
+                        result += choice.message.content
+                answers_list.append(result)
+        df["terms"] = answers_list
+        return df
+
+
+
+
+def calculate_score(row):
+    content = row['Content'].lower()
+    terms = [term.strip() for term in row['terms'].split(',')]
+    terms_count = len(terms)
+    terms_found = 0
+    missing_terms = []
+
+    for term in terms:
+        if term.lower() in content:
+            terms_found += 1
+        else:
+            missing_terms.append(term)
+
+    score = (terms_found / terms_count) * 100
+    missing_terms_str = ', '.join(missing_terms)  # Conversion de la liste en chaîne de caractères
+    return score, missing_terms_str
+
+
+
 if choose =="ContentScoring":
     form = st.form(key='my-form-22')
     API_key = form.text_input("Insert API key")
@@ -171,12 +213,13 @@ if choose =="ContentScoring":
         openai.api_key = API_key
         gif_runner = st.image("bsbot.gif")
         result = seo_insights(df)
+        st.write(result)
         gif_runner.empty()
-        score = calculate_score(df)
+        df['score'], df['missing_terms'] = zip(*df.apply(calculate_score, axis=1))
              # j'affiche le contenu à gauche et le les termes à droite sous forme de tags
         st.write(score)
              # j'affiche le contenu à gauche et le les termes à droite sous forme de tags
-        st.write(result)
+       
 
 
 
