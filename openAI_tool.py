@@ -240,6 +240,7 @@ if choose =="ContentScoring":
         st.table(df)
         missing_kw_list = df['missing_terms'].str.split(', ').tolist()
         missing_kw_list = [mot_cle for sous_liste in missing_kw_list for mot_cle in sous_liste]
+        st.write(type(missing_kw_list))
         st_tags(value = missing_kw_list, suggestions = ["add new terms"], label=  "Enter keywords", text= "Press enter to add more", maxtags= 20, key=1)
         keywords = st_tags(label='# Enter Keywords:', text='Press enter to add more', value=['Zero', 'One', 'Two'],suggestions=['five', 'six', 'seven', 'eight', 'nine', 'three', 'eleven', 'ten', 'four'],maxtags = 4, key='1')
         form = st.form(key='my-form-23')
