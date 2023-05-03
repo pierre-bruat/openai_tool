@@ -222,7 +222,6 @@ def st_tags(value: list,
     Note: usage also supports keywords = st_tags()
     '''
 import panel as pn
-
 if choose =="ContentScoring":
     form = st.form(key='my-form-22')
     API_key = form.text_input("Insert API key")
@@ -241,5 +240,5 @@ if choose =="ContentScoring":
         st.table(df)
         missing_kw_list = df['missing_terms'].str.split(', ').tolist()
         missing_kw_list = [mot_cle for sous_liste in missing_kw_list for mot_cle in sous_liste]
-        options = st.multiselect('What are your favorite colors', missing_kw_list)
+        options = st.multiselect('What are your favorite colors', missing_kw_list, default= missing_kw_list, label_visibility("visible"))
         st.write('You selected:', options)
