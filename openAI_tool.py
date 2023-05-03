@@ -243,6 +243,3 @@ if choose =="ContentScoring":
         #st.write(type(missing_kw_list))
         #missing_kw = st_tags( value = ['Testcc','Coucou'], suggestions = ["Test"],label = "Missing keywords",text = "Press enter to add more", maxtags =20,key="coucou")
         #st.write(missing_kw)
-
-
-
