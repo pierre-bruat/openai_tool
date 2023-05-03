@@ -243,5 +243,5 @@ if choose =="ContentScoring":
         missing_kw_list = df['missing_terms'].str.split(', ').tolist()
         missing_kw_list = [mot_cle for sous_liste in missing_kw_list for mot_cle in sous_liste]
         pn.extension()
-        multi_choice = pn.widgets.MultiChoice(name='MultiSelect', value=missing_kw_list, options=[''])
+        multi_choice = pn.widgets.MultiChoice(name='MultiSelect', value=["coucou","test"], options=[''])
         pn.Column(multi_choice.clone(solid=False), height=200)       
