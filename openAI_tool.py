@@ -117,7 +117,7 @@ if submit:
     gif_runner = st.image("bsbot.gif")
     result = seo_insights(df)
     gif_runner.empty()
-    df['score'], df['missing_terms'] = zip(*df.apply(calculate_score, axis=1))
+    df['score'], df['missing_terms'] = df.apply(calculate_score, axis=1))
     st.metric("Optimization score",df["score"])
     st.table(df)
     missing_kw_list = df['missing_terms'].str.split(', ').tolist()
