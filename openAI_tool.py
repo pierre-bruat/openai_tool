@@ -242,4 +242,6 @@ if choose =="ContentScoring":
         missing_kw_list = [mot_cle for sous_liste in missing_kw_list for mot_cle in sous_liste]
         st.write(missing_kw_list)
         st.write(type(missing_kw_list))
+        missing_kw = st_tags( value = missing_kw_list, suggestions = ["Test"],label = "Missing keywords",text = "Press enter to add more", maxtags =50,key="coucou")
+        #st.write(missing_kw)
 
