@@ -82,7 +82,6 @@ def calculate_score(row):
 
     score = (terms_found / terms_count) * 100
     missing_terms_str = ', '.join(missing_terms)  # Conversion de la liste en chaîne de caractères
-    df['score'], df['missing_terms'] = zip(*df.apply(calculate_score, axis=1))
     return df
 
 
