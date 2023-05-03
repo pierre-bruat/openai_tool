@@ -112,6 +112,8 @@ form = st.form(key='my-form-22')
 API_key = form.text_input("Insert API key")
 keyword = form.text_input("Insert your keyword")
 content = form.text_area('Text to analyze')
+role = "Tu es un ingénieur linguistique"
+
 submit = form.form_submit_button('Submit')
 if submit:
     data = {'keyword': [keyword],'Content':[content]} 
