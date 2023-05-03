@@ -18,3 +18,4 @@ matplotlib
 matplotlib-venn
 streamlit-ace
 streamlit-tags
+panel
