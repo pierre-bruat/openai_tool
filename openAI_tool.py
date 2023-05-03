@@ -238,6 +238,7 @@ if choose =="ContentScoring":
         df['score'], df['missing_terms'] = zip(*df.apply(calculate_score, axis=1))
         st.metric("Optimization score",df["score"])
         st.table(df)
+        st.write(type(df["missing_terms"]))
 
 
 
