@@ -241,5 +241,5 @@ if choose =="ContentScoring":
         st.table(df)
         missing_kw_list = df['missing_terms'].str.split(', ').tolist()
         missing_kw_list = [mot_cle for sous_liste in missing_kw_list for mot_cle in sous_liste]
-        options = st.multiselect('What are your favorite colors', ['Green', 'Yellow', 'Red', 'Blue'],['Yellow', 'Red'])
+        options = st.multiselect('What are your favorite colors', missing_kw_list)
         st.write('You selected:', options)
