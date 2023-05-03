@@ -47,7 +47,6 @@ st.markdown(hide_table_row_index, unsafe_allow_html=True)
 @st.cache(ttl=3600)
 @st.cache(suppress_st_warning=True)
 
-role = "Tu es un ingénieur linguistique"
 
 def seo_insights(df):
         answers_list = []
