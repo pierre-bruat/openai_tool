@@ -237,4 +237,3 @@ if choose =="ContentScoring":
         gif_runner.empty()
         df['score'], df['missing_terms'] = zip(*df.apply(calculate_score, axis=1))
         st.metric("Optimization score",df["score"])
-        st.write(type(df['missing_terms'])
