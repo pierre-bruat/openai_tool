@@ -36,6 +36,16 @@ from pandas.api.types import (
 
 
 
+st.set_page_config(
+    page_title='OpenAI tool', 
+    page_icon=':brain',
+    #layout = "wide",
+    initial_sidebar_state='expanded',
+    )
+#st.sidebar.success("Menu")
+
+
+
 hide_table_row_index = """
             <style>
             tbody th {display:none}
@@ -44,6 +54,10 @@ hide_table_row_index = """
             """
 st.markdown(hide_table_row_index, unsafe_allow_html=True)
 
+#@st.cache(ttl=3600)
+#@st.cache(suppress_st_warning=True)
+
+role = "Tu es un ingénieur linguistique"
 
 def seo_insights(df):
         answers_list = []
@@ -79,8 +93,113 @@ def calculate_score(row):
 
     score = (terms_found / terms_count) * 100
     missing_terms_str = ', '.join(missing_terms)  # Conversion de la liste en chaîne de caractères
+    df['score'], df['missing_terms'] = zip(*df.apply(calculate_score, axis=1))
     return df
 
+
+
+
+
+with st.sidebar:
+    choose = option_menu("SEO toolbox", ["OpenAI tool","CHATGPT","ContentScoring"],
+                     icons=['robot','robot','robot'],
+                     menu_icon="app-indicator", 
+                     default_index=0, 
+                     orientation="vertical",
+                     styles={
+    "container": {"padding": "5!important", "background-color": "#fafafa"},
+    "icon": {"color": "#1e3c87", "font-size": "25px"}, 
+    "nav-link": {"font-size": "16px", "text-align": "left", "margin":"0px", "--hover-color": "#eee"},
+    "nav-link-selected": {"background-color": "#1e3c87"},
+    "alert":"display:none"}
+)
+
+
+
+if choose =="OpenAI tool":
+    form = st.form(key='my-form-20')
+    API_key = form.text_input("Insert API key")
+    query = form.text_input("Ask anything you want")
+    submit = form.form_submit_button('Submit')
+    if submit:
+        gif_runner = st.image("bsbot.gif")
+        openai.api_key = API_key
+        response = openai.Completion.create(
+            #model="gpt-3.5-turbo",
+            model="text-davinci-003",
+            prompt=query,
+            temperature=0,
+            max_tokens=2000,
+            top_p=1,
+            frequency_penalty=0,
+            presence_penalty=0)
+
+        data = response.choices[0].text
+        gif_runner.empty()
+        st.write(data)
+
+
+#https://platform.openai.com/docs/guides/chat/chat-vs-completions
+if choose =="CHATGPT":
+    form = st.form(key='my-form-21')
+    API_key = form.text_input("Insert API key")
+    role = form.text_input("Who am I ?")
+    promt = form.text_input("Prompt")
+    submit = form.form_submit_button('Submit')
+    if submit:
+        openai.api_key = API_key
+        gif_runner = st.image("bsbot.gif")
+        response = openai.ChatCompletion.create(
+            model ="gpt-3.5-turbo",
+            messages = [
+            {"role":"system" , "content": role},
+            {"role":"user" , "content": promt}],
+            max_tokens = 2000)
+        result = ''
+        for choice in response.choices:
+            result += choice.message.content
+        gif_runner.empty()
+        st.write(result)
+
+
+
+
+def seo_insights(df):
+        answers_list = []
+        for row in tqdm(df.itertuples()):
+                keyword = " ".join(row.keyword.split(" "))
+                response = openai.ChatCompletion.create(
+                        model ="gpt-4",
+                        messages = [
+                        {"role":"system" , "content": role},
+                        {"role":"user" , "content":f"Dans le cadre de la rédaction éditoriale d'un contenu autour du sujet suivant : {keyword}. Retourne les termes issus du champ lexical / sémantique autour de ce mot clé : {keyword} sous forme de liste. Les termes doivent être séparés par des virgules. "}],
+                        max_tokens = 1000)
+                result = ''
+                for choice in response.choices:
+                        result += choice.message.content
+                answers_list.append(result)
+        df["terms"] = answers_list
+        return df
+
+
+
+
+def calculate_score(row):
+    content = row['Content'].lower()
+    terms = [term.strip() for term in row['terms'].split(',')]
+    terms_count = len(terms)
+    terms_found = 0
+    missing_terms = []
+
+    for term in terms:
+        if term.lower() in content:
+            terms_found += 1
+        else:
+            missing_terms.append(term)
+
+    score = (terms_found / terms_count) * 100
+    missing_terms_str = ', '.join(missing_terms)  # Conversion de la liste en chaîne de caractères
+    return score, missing_terms_str
 
 
 def st_tags(value: list,
@@ -102,9 +221,27 @@ def st_tags(value: list,
 
     Note: usage also supports keywords = st_tags()
     '''
+import panel as pn
 
 
-form = st.form(key='my-form-22')
-st_tags(value = ['Zero', 'One', 'Two'], suggestions = ["add new terms"], label=  "Enter keywords", text= "Press enter to add more", maxtags= 20, key=1)
-keywords = st_tags(label='# Enter Keywords:', text='Press enter to add more', value=['Zero', 'One', 'Two'],suggestions=['five', 'six', 'seven', 'eight', 'nine', 'three', 'eleven', 'ten', 'four'],maxtags = 4, key='1')
-       
+if choose =="ContentScoring":
+    form = st.form(key='my-form-22')
+    API_key = form.text_input("Insert API key")
+    keyword = form.text_input("Insert your keyword")
+    content = form.text_area('Text to analyze')
+    submit = form.form_submit_button('Submit')
+    if submit:
+        data = {'keyword': [keyword],'Content':[content]} 
+        df = pd.DataFrame(data)  
+        openai.api_key = API_key
+        gif_runner = st.image("bsbot.gif")
+        result = seo_insights(df)
+        gif_runner.empty()
+        df['score'], df['missing_terms'] = zip(*df.apply(calculate_score, axis=1))
+        st.metric("Optimization score",df["score"])
+        st.table(df)
+        missing_kw_list = df['missing_terms'].str.split(', ').tolist()
+        missing_kw_list = [mot_cle for sous_liste in missing_kw_list for mot_cle in sous_liste]
+        pn.extension()
+        multi_choice = pn.widgets.MultiChoice(name='MultiSelect', value=missing_kw_list, options=[''])
+        pn.Column(multi_choice.clone(solid=False), height=200)       
