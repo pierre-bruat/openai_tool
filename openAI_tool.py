@@ -240,4 +240,4 @@ if choose =="ContentScoring":
         st.table(df)
         missing_kw_list = df['missing_terms'].str.split(', ').tolist()
         missing_kw_list = [mot_cle for sous_liste in missing_kw_list for mot_cle in sous_liste]
-        st.write(type(missing_kw_list)
+        st.write(missing_kw_list)
