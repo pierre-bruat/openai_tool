@@ -245,4 +245,4 @@ if choose =="ContentScoring":
         form = st.form(key='my-form-23')
         st_tags(value = missing_kw_list, suggestions = ["add new terms"], label=  "Enter keywords", text= "Press enter to add more", maxtags= 20, key=1)
         keywords = st_tags(value = missing_kw_list, suggestions = ["add new terms"], label=  "Enter keywords", text= "Press enter to add more", maxtags= 20, key=1)
-
+        st.write(keywords)
