@@ -240,7 +240,6 @@ if choose =="ContentScoring":
         st.table(df)
         missing_kw_list = df['missing_terms'].str.split(', ').tolist()
         missing_kw_list = [mot_cle for sous_liste in missing_kw_list for mot_cle in sous_liste]
-        st.write(missing_kw_list)
         options = st.multiselect('Missing keywords',missing_kw_list)
         st.write('Missing keywords', options)
 
