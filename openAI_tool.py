@@ -112,7 +112,6 @@ API_key = form.text_input("Insert API key")
 keyword = form.text_input("Insert your keyword")
 content = form.text_area('Text to analyze')
 role = "Tu es un ingénieur linguistique"
-
 submit = form.form_submit_button('Submit')
 if submit:
     data = {'keyword': [keyword],'Content':[content]} 
@@ -122,8 +121,8 @@ if submit:
     result = seo_insights(df)
     gif_runner.empty()
     result['score'], result['missing_terms'] = zip(*result.apply(calculate_score, axis=1))
-    st.metric("Optimization score",df["score"])
-    st.table(df)
+    st.metric("Optimization score",result["score"])
+    st.table(result)
     missing_kw_list = df['missing_terms'].str.split(', ').tolist()
     missing_kw_list = [mot_cle for sous_liste in missing_kw_list for mot_cle in sous_liste]
     st.write(missing_kw_list)
