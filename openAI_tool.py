@@ -238,7 +238,9 @@ if choose =="ContentScoring":
         df['score'], df['missing_terms'] = zip(*df.apply(calculate_score, axis=1))
         st.metric("Optimization score",df["score"])
         st.table(df)
-        st.write(type(df["missing_terms"]))
+        missing_kw_list = df['missing_terms'].str.split(', ').tolist()
+        missing_kw_list = [mot_cle for sous_liste in missing_kw_list for mot_cle in sous_liste]
+        st.write(type(missing_kw_list)
 
 
 
