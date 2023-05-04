@@ -202,43 +202,32 @@ def calculate_score(row):
     return score, missing_terms_str
 
 
-def st_tags(value: list,
-            suggestions: list,
-            label: str,
-            text: str,
-            maxtags: int,
-            key=None) -> list:
-    '''
-    :param maxtags: Maximum number of tags allowed maxtags = -1 for unlimited entries
-    :param suggestions: (List) List of possible suggestions (optional)
-    :param label: (Str) Label of the Function
-    :param text: (Str) Instructions for entry
-    :param value: (List) Initial Value (optional)
-    :param key: (Str)
-        An optional string to use as the unique key for the widget.
-        Assign a key so the component is not remount every time the script is rerun.
-    :return: (List) Tags
+if "selected_options" not in st.session_state:
+    st.session_state.selected_options = []
 
-    Note: usage also supports keywords = st_tags()
-    '''
-import panel as pn
-if choose =="ContentScoring":
+
+if choose == "ContentScoring":
     form = st.form(key='my-form-22')
     API_key = form.text_input("Insert API key")
     keyword = form.text_input("Insert your keyword")
     content = form.text_area('Text to analyze')
-    submit = form.form_submit_button('Submit')
+    submit = form.button('Submit')
     if submit:
-        data = {'keyword': [keyword],'Content':[content]} 
-        df = pd.DataFrame(data)  
+        data = {'keyword': [keyword], 'Content': [content]}
+        df = pd.DataFrame(data)
         openai.api_key = API_key
         gif_runner = st.image("bsbot.gif")
         result = seo_insights(df)
         gif_runner.empty()
         df['score'], df['missing_terms'] = zip(*df.apply(calculate_score, axis=1))
-        st.metric("Optimization score",df["score"])
+        st.metric("Optimization score", df["score"])
         st.table(df)
         missing_kw_list = df['missing_terms'].str.split(', ').tolist()
         missing_kw_list = [mot_cle for sous_liste in missing_kw_list for mot_cle in sous_liste]
-        options = st.multiselect('What are your favorite colors', missing_kw_list, default= missing_kw_list)
-        st.write(options)
+        
+        # Update the session state with the new options
+        st.session_state.selected_options = st.multiselect(
+            'What are your favorite colors',
+            missing_kw_list,
+            default=st.session_state.selected_options
+        )
