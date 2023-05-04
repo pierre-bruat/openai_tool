@@ -211,7 +211,7 @@ if choose == "ContentScoring":
     API_key = form.text_input("Insert API key")
     keyword = form.text_input("Insert your keyword")
     content = form.text_area('Text to analyze')
-    submit = form.button('Submit')
+    submit = form.form_submit_button('Submit')
     if submit:
         data = {'keyword': [keyword], 'Content': [content]}
         df = pd.DataFrame(data)
