@@ -203,7 +203,7 @@ def calculate_score(row):
 
 
 if "selected_options" not in st.session_state:
-    st.session_state.selected_options = []
+    st.session_state.selected_options = missing_kw_list
 
 
 if choose == "ContentScoring":
@@ -227,7 +227,7 @@ if choose == "ContentScoring":
         
         # Update the session state with the new options
         st.session_state.selected_options = st.multiselect(
-            'What are your favorite colors',
+            'Missing keywords',
             missing_kw_list,
             default=st.session_state.selected_options
         )
