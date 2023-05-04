@@ -213,6 +213,8 @@ if choose == "ContentScoring":
     content = form.text_area('Text to analyze')
     submit = form.form_submit_button('Submit')
     if submit:
+        if "selected_options" not in st.session_state:
+            st.session_state.selected_options = missing_kw_list
         data = {'keyword': [keyword], 'Content': [content]}
         df = pd.DataFrame(data)
         openai.api_key = API_key
@@ -231,3 +233,6 @@ if choose == "ContentScoring":
             missing_kw_list,
             default=st.session_state.selected_options
         )
+
+
+ options = st.multiselect('What are your favorite colors', missing_kw_list, default= missing_kw_list)
