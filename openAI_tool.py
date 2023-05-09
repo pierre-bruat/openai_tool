@@ -202,37 +202,50 @@ def calculate_score(row):
     return score, missing_terms_str
 
 
-if "selected_options" not in st.session_state:
-    st.session_state.selected_options = missing_kw_list
+def st_tags(value: list,
+            suggestions: list,
+            label: str,
+            text: str,
+            maxtags: int,
+            key=None) -> list:
+    '''
+    :param maxtags: Maximum number of tags allowed maxtags = -1 for unlimited entries
+    :param suggestions: (List) List of possible suggestions (optional)
+    :param label: (Str) Label of the Function
+    :param text: (Str) Instructions for entry
+    :param value: (List) Initial Value (optional)
+    :param key: (Str)
+        An optional string to use as the unique key for the widget.
+        Assign a key so the component is not remount every time the script is rerun.
+    :return: (List) Tags
+
+    Note: usage also supports keywords = st_tags()
+    '''
 
 
-if choose == "ContentScoring":
+if choose =="ContentScoring":
     form = st.form(key='my-form-22')
     API_key = form.text_input("Insert API key")
     keyword = form.text_input("Insert your keyword")
     content = form.text_area('Text to analyze')
     submit = form.form_submit_button('Submit')
     if submit:
-        if "selected_options" not in st.session_state:
-            st.session_state.selected_options = missing_kw_list
-        data = {'keyword': [keyword], 'Content': [content]}
-        df = pd.DataFrame(data)
+        data = {'keyword': [keyword],'Content':[content]} 
+        df = pd.DataFrame(data)  
         openai.api_key = API_key
         gif_runner = st.image("bsbot.gif")
         result = seo_insights(df)
         gif_runner.empty()
         df['score'], df['missing_terms'] = zip(*df.apply(calculate_score, axis=1))
-        st.metric("Optimization score", df["score"])
+        st.metric("Optimization score",df["score"])
         st.table(df)
         missing_kw_list = df['missing_terms'].str.split(', ').tolist()
         missing_kw_list = [mot_cle for sous_liste in missing_kw_list for mot_cle in sous_liste]
-        
-        # Update the session state with the new options
-        st.session_state.selected_options = st.multiselect(
-            'Missing keywords',
-            missing_kw_list,
-            default=st.session_state.selected_options
-        )
-
-
- options = st.multiselect('What are your favorite colors', missing_kw_list, default= missing_kw_list)
+        st.write(missing_kw_list)
+        st.write(type(missing_kw_list))
+        st_tags(value = missing_kw_list, suggestions = ["add new terms"], label=  "Enter keywords", text= "Press enter to add more", maxtags= 20, key=1)
+        keywords = st_tags(label='# Enter Keywords:', text='Press enter to add more', value=['Zero', 'One', 'Two'],suggestions=['five', 'six', 'seven', 'eight', 'nine', 'three', 'eleven', 'ten', 'four'],maxtags = 4, key='1')
+        form = st.form(key='my-form-23')
+        st_tags(value = missing_kw_list, suggestions = ["add new terms"], label=  "Enter keywords", text= "Press enter to add more", maxtags= 20, key=1)
+        keywords = st_tags(value = missing_kw_list, suggestions = ["add new terms"], label=  "Enter keywords", text= "Press enter to add more", maxtags= 20, key=1)
+        st.write(keywords)
