@@ -15,6 +15,7 @@ import requests
 import streamlit as st
 from streamlit_tags import st_tags 
 from streamlit_option_menu import option_menu
+from openai import OpenAI
 from st_aggrid import AgGrid
 import streamlit.components.v1 as html
 from serpapi import GoogleSearch
@@ -125,9 +126,9 @@ if choose =="CHATGPT":
     promt = form.text_area("Prompt")
     submit = form.form_submit_button('Submit')
     if submit:
-        openai.api_key = API_key
+        client = OpenAI(api_key=API_key,)
         gif_runner = st.image("bsbot.gif")
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model = GTP_version,
             messages = [
             {"role":"system" , "content": role},
