@@ -1,3 +1,4 @@
+openai --upgrade
 streamlit
 pandas 
 urllib3
