@@ -121,7 +121,7 @@ if choose =="CHATGPT":
     form = st.form(key='my-form-21')
     API_key = form.text_input("Insert API key")
     GTP_version = form.selectbox('Select GTP version', ('gpt-3.5-turbo', 'gpt-4-1106-preview'))
-    Max_token = form.text_area("Max token value")
+    Max_token = form.number_input("Max token value")
     role = form.text_area("User : Describe who you want me to be")
     promt = form.text_area("Prompt")
     submit = form.form_submit_button('Submit')
