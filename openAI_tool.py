@@ -115,42 +115,19 @@ with st.sidebar:
 )
 
 
-
-if choose =="OpenAI tool":
-    form = st.form(key='my-form-20')
-    API_key = form.text_input("Insert API key")
-    query = form.text_input("Ask anything you want")
-    submit = form.form_submit_button('Submit')
-    if submit:
-        gif_runner = st.image("bsbot.gif")
-        openai.api_key = API_key
-        response = openai.Completion.create(
-            #model="gpt-3.5-turbo",
-            model="text-davinci-003",
-            prompt=query,
-            temperature=0,
-            max_tokens=2000,
-            top_p=1,
-            frequency_penalty=0,
-            presence_penalty=0)
-
-        data = response.choices[0].text
-        gif_runner.empty()
-        st.write(data)
-
-
 #https://platform.openai.com/docs/guides/chat/chat-vs-completions
 if choose =="CHATGPT":
     form = st.form(key='my-form-21')
     API_key = form.text_input("Insert API key")
-    role = form.text_input("Who am I ?")
-    promt = form.text_input("Prompt")
+    GTP_version = form.select_box('Select GTP version', ('gpt-3.5-turbo', 'gpt-4-1106-preview'))
+    role = form.text_area("User : Describe who you want me to be")
+    promt = form.text_area("Prompt")
     submit = form.form_submit_button('Submit')
     if submit:
         openai.api_key = API_key
         gif_runner = st.image("bsbot.gif")
         response = openai.ChatCompletion.create(
-            model ="gpt-3.5-turbo",
+            model = GTP_version,
             messages = [
             {"role":"system" , "content": role},
             {"role":"user" , "content": promt}],
@@ -223,29 +200,29 @@ def st_tags(value: list,
     '''
 
 
-if choose =="ContentScoring":
-    form = st.form(key='my-form-22')
-    API_key = form.text_input("Insert API key")
-    keyword = form.text_input("Insert your keyword")
-    content = form.text_area('Text to analyze')
-    submit = form.form_submit_button('Submit')
-    if submit:
-        data = {'keyword': [keyword],'Content':[content]} 
-        df = pd.DataFrame(data)  
-        openai.api_key = API_key
-        gif_runner = st.image("bsbot.gif")
-        result = seo_insights(df)
-        gif_runner.empty()
-        df['score'], df['missing_terms'] = zip(*df.apply(calculate_score, axis=1))
-        st.metric("Optimization score",df["score"])
-        st.table(df)
-        missing_kw_list = df['missing_terms'].str.split(', ').tolist()
-        missing_kw_list = [mot_cle for sous_liste in missing_kw_list for mot_cle in sous_liste]
-        st.write(missing_kw_list)
-        st.write(type(missing_kw_list))
-        st_tags(value = missing_kw_list, suggestions = ["add new terms"], label=  "Enter keywords", text= "Press enter to add more", maxtags= 20, key=1)
-        keywords = st_tags(label='# Enter Keywords:', text='Press enter to add more', value=['Zero', 'One', 'Two'],suggestions=['five', 'six', 'seven', 'eight', 'nine', 'three', 'eleven', 'ten', 'four'],maxtags = 4, key='1')
-        form = st.form(key='my-form-23')
-        st_tags(value = missing_kw_list, suggestions = ["add new terms"], label=  "Enter keywords", text= "Press enter to add more", maxtags= 20, key=1)
-        keywords = st_tags(value = missing_kw_list, suggestions = ["add new terms"], label=  "Enter keywords", text= "Press enter to add more", maxtags= 20, key=1)
-        st.write(keywords)
+# if choose =="ContentScoring":
+#     form = st.form(key='my-form-22')
+#     API_key = form.text_input("Insert API key")
+#     keyword = form.text_input("Insert your keyword")
+#     content = form.text_area('Text to analyze')
+#     submit = form.form_submit_button('Submit')
+#     if submit:
+#         data = {'keyword': [keyword],'Content':[content]} 
+#         df = pd.DataFrame(data)  
+#         openai.api_key = API_key
+#         gif_runner = st.image("bsbot.gif")
+#         result = seo_insights(df)
+#         gif_runner.empty()
+#         df['score'], df['missing_terms'] = zip(*df.apply(calculate_score, axis=1))
+#         st.metric("Optimization score",df["score"])
+#         st.table(df)
+#         missing_kw_list = df['missing_terms'].str.split(', ').tolist()
+#         missing_kw_list = [mot_cle for sous_liste in missing_kw_list for mot_cle in sous_liste]
+#         st.write(missing_kw_list)
+#         st.write(type(missing_kw_list))
+#         st_tags(value = missing_kw_list, suggestions = ["add new terms"], label=  "Enter keywords", text= "Press enter to add more", maxtags= 20, key=1)
+#         keywords = st_tags(label='# Enter Keywords:', text='Press enter to add more', value=['Zero', 'One', 'Two'],suggestions=['five', 'six', 'seven', 'eight', 'nine', 'three', 'eleven', 'ten', 'four'],maxtags = 4, key='1')
+#         form = st.form(key='my-form-23')
+#         st_tags(value = missing_kw_list, suggestions = ["add new terms"], label=  "Enter keywords", text= "Press enter to add more", maxtags= 20, key=1)
+#         keywords = st_tags(value = missing_kw_list, suggestions = ["add new terms"], label=  "Enter keywords", text= "Press enter to add more", maxtags= 20, key=1)
+#         st.write(keywords)
