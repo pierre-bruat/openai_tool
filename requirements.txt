@@ -5,6 +5,7 @@ bs4
 requests
 times
 streamlit-tags
+openai == 1.3.5
 pytrends
 advertools
 streamlit_option_menu
