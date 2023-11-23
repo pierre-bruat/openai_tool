@@ -133,7 +133,7 @@ if choose =="CHATGPT":
             messages = [
             {"role":"system" , "content": role},
             {"role":"user" , "content": promt}],
-            max_tokens = 4097)
+            max_tokens = 1000)
         result = ''
         for choice in response.choices:
             result += choice.message.content
