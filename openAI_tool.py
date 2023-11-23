@@ -119,7 +119,7 @@ with st.sidebar:
 if choose =="CHATGPT":
     form = st.form(key='my-form-21')
     API_key = form.text_input("Insert API key")
-    GTP_version = form.select_box('Select GTP version', ('gpt-3.5-turbo', 'gpt-4-1106-preview'))
+    GTP_version = form.selectbox('Select GTP version', ('gpt-3.5-turbo', 'gpt-4-1106-preview'))
     role = form.ftext_area("User : Describe who you want me to be")
     promt = form.text_area("Prompt")
     submit = form.submit_button('Submit')
