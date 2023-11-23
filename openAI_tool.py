@@ -122,7 +122,7 @@ if choose =="CHATGPT":
     GTP_version = form.selectbox('Select GTP version', ('gpt-3.5-turbo', 'gpt-4-1106-preview'))
     role = form.ftext_area("User : Describe who you want me to be")
     promt = form.text_area("Prompt")
-    submit = form.submit_button('Submit')
+    submit = form.form_submit_button('Submit')
     if submit:
         openai.api_key = API_key
         gif_runner = st.image("bsbot.gif")
