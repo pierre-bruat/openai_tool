@@ -9,6 +9,8 @@ from datetime import *
 import io
 import numpy as np
 import pandas as pd
+from openai import OpenAI
+from openai import AsyncOpenAI
 import os
 import openai
 import requests
@@ -60,15 +62,21 @@ st.markdown(hide_table_row_index, unsafe_allow_html=True)
 
 role = "Tu es un ingénieur linguistique"
 
+client = OpenAI(
+    # defaults to os.environ.get("OPENAI_API_KEY")
+    api_key=api_key,)
+
 def seo_insights(df):
         answers_list = []
         for row in tqdm(df.itertuples()):
                 keyword = " ".join(row.keyword.split(" "))
-                response = openai.ChatCompletion.create(
-                        model ="gpt-4",
+                response = client.chat.completions.create(
+                        model ="gpt-4o",
                         messages = [
                         {"role":"system" , "content": role},
                         {"role":"user" , "content":f"Dans le cadre de la rédaction éditoriale d'un contenu autour du sujet suivant : {keyword}. Retourne les termes issus du champ lexical / sémantique autour de ce mot clé : {keyword} sous forme de liste. Les termes doivent être séparés par des virgules. "}],
+                        temperature = 0.2,
+
                         max_tokens = 1000)
                 result = ''
                 for choice in response.choices:
