@@ -102,7 +102,9 @@ def st_tags(value: list,
 
     Note: usage also supports keywords = st_tags()
     '''
-
+client = OpenAI(
+    # defaults to os.environ.get("OPENAI_API_KEY")
+    api_key=api_key,)
 
 
 def seo_insights(df):
