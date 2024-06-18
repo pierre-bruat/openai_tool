@@ -64,6 +64,47 @@ st.markdown(hide_table_row_index, unsafe_allow_html=True)
 role = "Tu es un ingénieur linguistique"
 
 
+
+def calculate_score(row):
+    content = row['Content'].lower()
+    terms = [term.strip() for term in row['terms'].split(',')]
+    terms_count = len(terms)
+    terms_found = 0
+    missing_terms = []
+
+    for term in terms:
+        if term.lower() in content:
+            terms_found += 1
+        else:
+            missing_terms.append(term)
+
+    score = (terms_found / terms_count) * 100
+    missing_terms_str = ', '.join(missing_terms)  # Conversion de la liste en chaîne de caractères
+    return score, missing_terms_str
+
+
+def st_tags(value: list,
+            suggestions: list,
+            label: str,
+            text: str,
+            maxtags: int,
+            key=None) -> list:
+    '''
+    :param maxtags: Maximum number of tags allowed maxtags = -1 for unlimited entries
+    :param suggestions: (List) List of possible suggestions (optional)
+    :param label: (Str) Label of the Function
+    :param text: (Str) Instructions for entry
+    :param value: (List) Initial Value (optional)
+    :param key: (Str)
+        An optional string to use as the unique key for the widget.
+        Assign a key so the component is not remount every time the script is rerun.
+    :return: (List) Tags
+
+    Note: usage also supports keywords = st_tags()
+    '''
+
+
+
 def seo_insights(df):
         answers_list = []
         for row in tqdm(df.itertuples()):
@@ -147,66 +188,6 @@ if choose =="CHATGPT":
         gif_runner.empty()
         st.write(result)
 
-
-
-
-def seo_insights(df):
-        answers_list = []
-        for row in tqdm(df.itertuples()):
-                keyword = " ".join(row.keyword.split(" "))
-                response = openai.ChatCompletion.create(
-                        model ="gpt-4",
-                        messages = [
-                        {"role":"system" , "content": role},
-                        {"role":"user" , "content":f"Dans le cadre de la rédaction éditoriale d'un contenu autour du sujet suivant : {keyword}. Retourne les termes issus du champ lexical / sémantique autour de ce mot clé : {keyword} sous forme de liste. Les termes doivent être séparés par des virgules. "}],
-                        max_tokens = 1000)
-                result = ''
-                for choice in response.choices:
-                        result += choice.message.content
-                answers_list.append(result)
-        df["terms"] = answers_list
-        return df
-
-
-
-
-def calculate_score(row):
-    content = row['Content'].lower()
-    terms = [term.strip() for term in row['terms'].split(',')]
-    terms_count = len(terms)
-    terms_found = 0
-    missing_terms = []
-
-    for term in terms:
-        if term.lower() in content:
-            terms_found += 1
-        else:
-            missing_terms.append(term)
-
-    score = (terms_found / terms_count) * 100
-    missing_terms_str = ', '.join(missing_terms)  # Conversion de la liste en chaîne de caractères
-    return score, missing_terms_str
-
-
-def st_tags(value: list,
-            suggestions: list,
-            label: str,
-            text: str,
-            maxtags: int,
-            key=None) -> list:
-    '''
-    :param maxtags: Maximum number of tags allowed maxtags = -1 for unlimited entries
-    :param suggestions: (List) List of possible suggestions (optional)
-    :param label: (Str) Label of the Function
-    :param text: (Str) Instructions for entry
-    :param value: (List) Initial Value (optional)
-    :param key: (Str)
-        An optional string to use as the unique key for the widget.
-        Assign a key so the component is not remount every time the script is rerun.
-    :return: (List) Tags
-
-    Note: usage also supports keywords = st_tags()
-    '''
 
 
 if choose =="ContentScoring":
