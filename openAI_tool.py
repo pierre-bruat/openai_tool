@@ -38,6 +38,7 @@ from pandas.api.types import (
 
 
 
+
 st.set_page_config(
     page_title='OpenAI tool', 
     page_icon=':brain',
@@ -122,6 +123,7 @@ with st.sidebar:
 
 #https://platform.openai.com/docs/guides/chat/chat-vs-completions
 if choose =="CHATGPT":
+    
     form = st.form(key='my-form-21')
     api_key = form.text_input("Insert API key")
     GTP_version = form.selectbox('Select GTP version', ('gpt-3.5-turbo', 'gpt-4-1106-preview'))
@@ -215,7 +217,6 @@ if choose =="ContentScoring":
     if submit:
         data = {'keyword': [keyword],'Content':[content]} 
         df = pd.DataFrame(data)  
-        openai.api_key = API_key
         gif_runner = st.image("bsbot.gif")
         result = seo_insights(df)
         gif_runner.empty()
