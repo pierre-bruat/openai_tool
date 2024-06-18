@@ -54,7 +54,7 @@ def calculate_score(row):
         else:
             missing_terms.append(term)
 
-    score = (terms_found / terms_count) * 100 if terms_count else 0
+    score = round((terms_found / terms_count) * 100)if terms_count else 0
     missing_terms_str = ', '.join(missing_terms)
     return score, missing_terms_str
 
@@ -66,7 +66,8 @@ def seo_insights(df):
             model="gpt-4",
             messages=[
                 {"role": "system", "content": role},
-                {"role": "user", "content": f"Dans le cadre de la rédaction éditoriale d'un contenu autour du sujet suivant : {keyword}. Retourne les termes issus du champ lexical / sémantique autour de ce mot clé : {keyword} sous forme de liste. Les termes doivent être séparés par des virgules."}
+                {"role": "user", "content": f"""Dans le cadre de la rédaction d'un brief pour rédiger un contenu de type conseil, qui apparaîtra sur la catégorie :'{keyword}' du site ManoMano, retourne les mots clés issus du champ lexical / sémantique autour du mot clé : {keyword}, sous forme de liste. 
+                Les termes doivent être séparés par des virgules. Retourne uniquement une sélection des 50 mots clés les plus importants. """}
             ],
             temperature=0.2,
             max_tokens=1000
