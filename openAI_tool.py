@@ -12,7 +12,6 @@ import pandas as pd
 from openai import OpenAI
 from openai import AsyncOpenAI
 import os
-import openai
 import requests
 import streamlit as st
 from streamlit_tags import st_tags 
@@ -62,9 +61,6 @@ st.markdown(hide_table_row_index, unsafe_allow_html=True)
 
 role = "Tu es un ingénieur linguistique"
 
-client = OpenAI(
-    # defaults to os.environ.get("OPENAI_API_KEY")
-    api_key=api_key,)
 
 def seo_insights(df):
         answers_list = []
@@ -134,7 +130,7 @@ if choose =="CHATGPT":
     promt = form.text_area("Prompt")
     submit = form.form_submit_button('Submit')
     if submit:
-        client = OpenAI(api_key=API_key,)
+        client = OpenAI(api_key=api_key)
         gif_runner = st.image("bsbot.gif")
         response = client.chat.completions.create(
             model = GTP_version,
