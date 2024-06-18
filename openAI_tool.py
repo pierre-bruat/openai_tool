@@ -199,6 +199,7 @@ if choose =="ContentScoring":
     content = form.text_area('Text to analyze')
     submit = form.form_submit_button('Submit')
     if submit:
+        client = OpenAI(api_key=api_key,)
         data = {'keyword': [keyword],'Content':[content]} 
         df = pd.DataFrame(data)  
         gif_runner = st.image("bsbot.gif")
