@@ -132,10 +132,10 @@ if choose == "ContentScoring":
         df['score'], df['missing_terms'] = zip(*df.apply(calculate_score, axis=1))
         st.metric("Optimization score", df["score"].iloc[0])
         st.table(df)
-        #missing_kw_list = df['missing_terms'].str.split(', ').tolist()
-        #missing_kw_list = [mot_cle for sous_liste in missing_kw_list for mot_cle in sous_liste]
-        #st.write(missing_kw_list)
-        #st.write(type(missing_kw_list))
-        #st_tags(value=missing_kw_list, suggestions=["add new terms"], label="Enter keywords", text="Press enter to add more", maxtags=20, key="tags1")
-        #keywords = st_tags(label='# Enter Keywords:', text='Press enter to add more', value=['Zero', 'One', 'Two'], suggestions=['five', 'six', 'seven', 'eight', 'nine', 'three', 'eleven', 'ten', 'four'], maxtags=4, key='tags2')
-        #st.write(keywords)
+        missing_kw_list = df['missing_terms'].str.split(', ').tolist()
+        missing_kw_list = [mot_cle for sous_liste in missing_kw_list for mot_cle in sous_liste]
+        st.write(missing_kw_list)
+        st.write(type(missing_kw_list))
+        st_tags(value=missing_kw_list, suggestions=["add new terms"], label="Enter keywords", text="Press enter to add more", maxtags=20, key="tags1")
+        keywords = st_tags(label='# Enter Keywords:', text='Press enter to add more', value=['Zero', 'One', 'Two'], suggestions=['five', 'six', 'seven', 'eight', 'nine', 'three', 'eleven', 'ten', 'four'], maxtags=4, key='tags2')
+        st.write(keywords)
